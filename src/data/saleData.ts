@@ -1,4 +1,4 @@
-import premiumCottonTShirt from "../assets/sale/premium-cotton-t-shirt.webp";
+import premiumCottonTShirt from "../assets/sale/premium-cotton-t-shirt.jpg";
 import designerJeans from "../assets/sale/designer-jeans.webp";
 import leatherAnkleBoots from "../assets/sale/leather-ankle-boots.webp";
 import cashmereSweater from "../assets/sale/cashmere-sweater.webp";

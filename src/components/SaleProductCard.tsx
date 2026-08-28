@@ -1,18 +1,33 @@
+import { Link, useNavigate } from "react-router-dom";
 import starIcon from "../assets/Component 2-1.svg";
-import heartIcon from "../assets/Component 2-10.svg";
 import bagIcon from "../assets/Component 2-9.svg";
 import type { SaleProduct } from "../data/saleData";
+import { FavoriteButton } from "./FavoriteButton";
 
 export function SaleProductCard({ product }: { product: SaleProduct }) {
+  const navigate = useNavigate();
+  const imageContent = (
+    <>
+      <img src={product.image} alt={product.name} className="h-full w-full object-cover object-top transition-transform duration-500 group-hover:scale-[1.015]" />
+      <span className="absolute left-2.5 top-2.5 rounded-full bg-[#EF4444] px-2 py-[3px] text-[8px] font-semibold text-white md:left-3 md:top-3 md:px-2.5 md:py-1 md:text-[10px]">{product.discount}</span>
+      <span className="absolute right-2.5 top-2.5 max-w-[105px] truncate rounded-full bg-[#F9FAFB]/95 px-2 py-[3px] text-[8px] font-medium text-[#030711] transition-[right] duration-200 md:right-3 md:top-3 md:max-w-[120px] md:px-2.5 md:py-1 md:text-[9px] md:group-hover:right-[58px]">{product.saleLabel}</span>
+    </>
+  );
+
   return (
     <article className="group relative overflow-hidden rounded-[10px] bg-white shadow-[0_4px_13px_rgba(3,7,17,0.10)] transition-[transform,box-shadow] duration-200 md:rounded-[12px] md:shadow-[0_5px_15px_rgba(3,7,17,0.10)] md:hover:-translate-y-[2px] md:hover:shadow-[0_12px_28px_rgba(3,7,17,0.14)]">
       <div className="relative h-[300px] overflow-hidden bg-[#E7E7E7] md:h-[315px]">
-        <img src={product.image} alt={product.name} className="h-full w-full object-cover object-center" />
-        <span className="absolute left-2.5 top-2.5 rounded-full bg-[#EF4444] px-2 py-[3px] text-[8px] font-semibold text-white md:left-3 md:top-3 md:px-2.5 md:py-1 md:text-[10px]">{product.discount}</span>
-        <span className="absolute right-2.5 top-2.5 max-w-[105px] truncate rounded-full bg-[#F9FAFB]/95 px-2 py-[3px] text-[8px] font-medium text-[#030711] transition-[right] duration-200 md:right-3 md:top-3 md:max-w-[120px] md:px-2.5 md:py-1 md:text-[9px] md:group-hover:right-[58px]">{product.saleLabel}</span>
-        <div aria-label="Favorite" className="pointer-events-none absolute right-3 top-3 hidden h-10 w-10 place-items-center rounded-[12px] bg-white/95 opacity-0 shadow-[0_3px_10px_rgba(3,7,17,0.08)] transition-opacity duration-200 md:grid md:group-hover:opacity-100">
-          <img src={heartIcon} alt="" className="h-[18px] w-[18px]" />
-        </div>
+        {product.id === 1 ? (
+          <Link to="/product/premium-cotton-t-shirt" aria-label="Open Premium Cotton T-Shirt product page" className="absolute inset-0 block">
+            {imageContent}
+          </Link>
+        ) : imageContent}
+        <FavoriteButton
+          productKey={`sale-${product.id}`}
+          label={product.name}
+          className="absolute right-3 top-3 z-20 hidden h-10 w-10 place-items-center rounded-[12px] bg-white/95 opacity-0 shadow-[0_3px_10px_rgba(3,7,17,0.08)] transition-[opacity,transform] duration-200 md:grid md:group-hover:opacity-100"
+          iconClassName="h-[18px] w-[18px]"
+        />
       </div>
 
       <div className="p-3 md:p-4">
@@ -34,13 +49,16 @@ export function SaleProductCard({ product }: { product: SaleProduct }) {
         </div>
 
         <div className="mt-3 grid grid-cols-[1fr_34px] gap-2 md:mt-4 md:grid-cols-[1fr_42px]">
-          <div className="flex h-8 items-center justify-center gap-2 rounded-[6px] bg-[#030711] px-3 text-[9px] font-medium text-white md:h-10 md:gap-3 md:rounded-[7px] md:px-4 md:text-[11px]">
+          <button type="button" onClick={() => navigate("/cart")} className="flex h-8 items-center justify-center gap-2 rounded-[6px] bg-[#030711] px-3 text-[9px] font-medium text-white md:h-10 md:gap-3 md:rounded-[7px] md:px-4 md:text-[11px]">
             <img src={bagIcon} alt="" className="h-3 w-3 invert md:h-4 md:w-4" />
             Add to Cart
-          </div>
-          <div aria-label="Favorite" className="grid h-8 place-items-center rounded-[6px] border border-[#D1D5DB] bg-white md:h-10 md:rounded-[7px]">
-            <img src={heartIcon} alt="" className="h-3.5 w-3.5 md:h-4 md:w-4" />
-          </div>
+          </button>
+          <FavoriteButton
+            productKey={`sale-${product.id}`}
+            label={product.name}
+            className="grid h-8 place-items-center rounded-[6px] border border-[#D1D5DB] bg-white md:h-10 md:rounded-[7px]"
+            iconClassName="h-3.5 w-3.5 md:h-4 md:w-4"
+          />
         </div>
       </div>
     </article>

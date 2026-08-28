@@ -1,8 +1,10 @@
-import { useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Header } from "../components/Header";
 import facebookIcon from "../assets/login/facebook.png";
 import eyeIcon from "../assets/login/eye.png";
 import googleIcon from "../assets/login/google.png";
+import { useAuth } from "../context/AuthContext";
 
 function MailIcon() {
   return (
@@ -25,6 +27,20 @@ function LockIcon() {
 export function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const navigate = useNavigate();
+  const { signIn, signOut } = useAuth();
+
+  useEffect(() => {
+    signOut();
+  }, [signOut]);
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const authenticated = signIn(email, password);
+    if (authenticated) {
+      navigate("/home");
+    }
+  };
 
   return (
     <div className="min-h-screen bg-[#FCFCFD]">
@@ -69,13 +85,14 @@ export function LoginPage() {
               <span className="h-px flex-1 bg-[#E5E7EB]" />
             </div>
 
-            <form onSubmit={(event) => event.preventDefault()} className="grid gap-5">
+            <form onSubmit={handleSubmit} className="grid gap-5">
               <label className="grid gap-2">
                 <span className="text-[15px] font-semibold text-[#030711] md:text-[14px]">Email address</span>
                 <span className="flex h-11 items-center rounded-[10px] border border-[#D9DDE4] bg-white px-3 text-[#6B7280] md:h-10">
                   <MailIcon />
                   <input
                     type="email"
+                    required
                     value={email}
                     onChange={(event) => setEmail(event.target.value)}
                     placeholder="Enter your email"
@@ -93,6 +110,7 @@ export function LoginPage() {
                   <LockIcon />
                   <input
                     type="password"
+                    required
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
                     placeholder="Enter your password"
@@ -108,7 +126,7 @@ export function LoginPage() {
             </form>
 
             <p className="mt-7 text-center text-[15px] text-[#6B7280] md:mt-6 md:text-[14px]">
-              Don&apos;t have an account? <span className="font-semibold text-[#030711]">Sign up</span>
+              Don&apos;t have an account? <Link to="/signup" className="font-semibold text-[#030711]">Sign up</Link>
             </p>
           </div>
 

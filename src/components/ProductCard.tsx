@@ -1,9 +1,9 @@
-import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import starIcon from "../assets/Component 2-1.svg";
 import type { Product } from "../data/storeData";
 
 export function ProductCard({ product }: { product: Product }) {
-  const [added, setAdded] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <article className="overflow-hidden rounded-[10px] bg-white shadow-[0_8px_20px_rgba(0,0,0,0.10)]">
@@ -32,10 +32,10 @@ export function ProductCard({ product }: { product: Product }) {
           </div>
           <button
             type="button"
-            onClick={() => setAdded((value) => !value)}
+            onClick={() => navigate("/cart")}
             className="h-9 rounded-[8px] border border-[#D1D5DB] px-3 text-[10px] font-semibold transition-colors hover:bg-[#F9FAFB] md:px-4 md:text-[11px]"
           >
-            {added ? "Added" : "Add to Cart"}
+            Add to Cart
           </button>
         </div>
       </div>
